@@ -10,6 +10,31 @@ class node{
  }
 
 };
+class Pair{
+    public:
+    node* head;
+    node* tail;
+};
+Pair reverseRec2(node* &head){         //this method will make complexity O(n) since u dont need to find
+    if(head==NULL||head->next==NULL){  // tail every singe time rather multiple parameters can be returned
+        Pair ans;                      // by a function using class object
+        ans.head=head;
+        ans.tail=tail;
+        return ans;
+    }
+    Pair newnode=reverseRec2(head->next);
+    newnode.tail->next=head;
+    head->next=NULL;
+    Pair ans;
+    ans.head=newnode;
+    ans.tail=head;
+    return ans;
+
+}
+node* typeconversion(node* &head){ //for type conversion from pair to node type 
+    return reverseRec2(head).head;
+
+}
 void print(node*head){
     node*temp=head;
     while(temp!=NULL){
@@ -21,7 +46,7 @@ void print(node*head){
 
 }
 
-node* reverse(node* &head){
+node* reverse(node* &head){//iterative approach 
     node* prevptr=NULL;
     node* currptr=head;
     node* nextptr;
@@ -35,6 +60,22 @@ node* reverse(node* &head){
 
     }
     return prevptr;
+}
+node* reverseRECURSIVE(node* &head){//recursive approach O(n2)
+    if(head==NULL||head->next==NULL){
+        return head;
+
+    }
+    node* newnode=reverseRECURSIVE(head->next);
+    node* temp=head;
+    while(temp->next!=NULL){
+        temp=temp->next;
+
+    }
+    temp->next=head;
+    head->next=NULL;
+    return newnode;
+
 }
 node* InsertAtTail(node* &head,int val){
  node* n=new node(val);
@@ -57,7 +98,7 @@ node* InsertAtTail(node* &head,int val){
         InsertAtTail(head,4);
         print(head);
         cout<<endl;
-        node* newhead=reverse(head);
+        node* newhead= reverseRECURSIVE(head);
         print(newhead);
      return 0;
  }
